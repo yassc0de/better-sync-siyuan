@@ -1,3 +1,5 @@
+> **Experimental QR branch warning:** On branch `feature/ephemeral-qr-sync` this fork provides a QR display/scanner prototype only. **It does not synchronize notes yet.** Existing HTTP sync and background syncing are intentionally blocked. Do not install expecting working E2EE. See [design](docs/LOCAL_SYNC_DESIGN.md).
+
 # Better Sync for SiYuan
 
 Better Sync is a plugin for [SiYuan](https://github.com/siyuan-note/siyuan) that implements a new synchronization system, which allows for a faster sync and a peer to peer style sync between different SiYuan instances.
