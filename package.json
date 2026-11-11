@@ -14,7 +14,7 @@
     "make-link-win": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./scripts/elevate.ps1 -scriptPath ./scripts/make_dev_link.js",
     "make-install": "pnpm run build && node --no-warnings ./scripts/make_install.js",
     "update-version": "node --no-warnings ./scripts/update_version.js",
-    "test:pairing": "tsc --pretty false --strict --lib es2022,dom --target es2022 --module esnext --outDir .test-build src/secure-session/pairing.ts && node --test scripts/test-pairing.mjs"
+    "test:pairing": "tsc --pretty false --skipLibCheck --moduleResolution node --strict --lib es2022,dom --target es2022 --module esnext --outDir .test-build src/secure-session/pairing.ts && node --test scripts/test-pairing.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.3.0",
