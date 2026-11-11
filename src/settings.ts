@@ -61,8 +61,20 @@ export class SettingsManager {
         });
 
         this.settingUtils.addItem({
+            key: "localQrPairing",
+            value: "",
+            type: "button",
+            title: "Local QR pairing — prototype",
+            description: "Create or scan a short-lived pairing QR. No note transfer is implemented yet.",
+            button: {
+                label: "Open QR pairing",
+                callback: () => this.plugin.openLocalPairingDialog()
+            }
+        });
+
+        this.settingUtils.addItem({
             key: "syncOnOpen",
-            value: true,
+            value: false,
             type: "checkbox",
             title: this.plugin.i18n.syncOnOpen,
             description: this.plugin.i18n.syncOnOpenDesc,
@@ -76,7 +88,7 @@ export class SettingsManager {
 
         this.settingUtils.addItem({
             key: "syncOnClose",
-            value: true,
+            value: false,
             type: "checkbox",
             title: this.plugin.i18n.syncOnClose,
             description: this.plugin.i18n.syncOnCloseDesc,
@@ -209,13 +221,24 @@ export class SettingsManager {
         } catch (error) {
             consoleError("Error loading settings storage, probably empty config json:", error);
         }
+        // Force unsafe legacy background syncing OFF even for existing saved preferences.
+        for (const option of ["syncOnOpen", "syncOnClose", "instantSync", "useExperimentalWebSocket"]) {
+            this.settingUtils.set(option, false);
+            this.settingUtils.disable(option);
+        }
     }
 
     onLayoutReady() {
         this.settingUtils.load();
     }
 
+    // Until all remote APIs are tunnelled through verified authenticated encryption,
+    // this fork must fail closed and never use the old HTTP sync paths.
+    isSecureTransportReady(): boolean { return false; }
+
     getPref = (key: string) => {
+        if (["syncOnOpen", "syncOnClose", "instantSync", "useExperimentalWebSocket"].includes(key))
+            return false;
         return this.settingUtils.get(key);
     }
 }
