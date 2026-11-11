@@ -9,3 +9,6 @@ dev
 dist
 build
 tmp
+
+# Pairing test build
+.test-build/

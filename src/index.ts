@@ -4,10 +4,15 @@ import { SettingsManager } from "./settings";
 import { SyncManager } from "@/sync";
 import { cloudSyncSuccIcon } from "@/assets";
 import { SyncStatus } from "@/types/sync-status";
+import { openPairingDialog } from "./secure-session/dialog";
 
 export default class BetterSyncPlugin extends Plugin {
     settingsManager: SettingsManager;
     syncManager: SyncManager;
+
+    public openLocalPairingDialog(): void {
+        openPairingDialog();
+    }
 
     async onload() {
         this.settingsManager = new SettingsManager(this);

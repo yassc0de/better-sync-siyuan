@@ -112,7 +112,7 @@ export class SyncManager {
         this.init();
 
         this.originalFetch = window.fetch.bind(window);
-        window.fetch = this.customFetch.bind(this);
+        // Do not intercept all global fetch calls in the manual QR prototype.
     }
 
     /**
@@ -947,6 +947,12 @@ export class SyncManager {
         persistentMessage: boolean = true,
         remotes: [Remote, Remote] = this.copyRemotes(this.remotes)
     ) {
+        // Never fall back to the original unencrypted HTTP sync engine.
+        // Until the authenticated encrypted LAN transport exists, only open the QR UI.
+        if (!this.plugin.settingsManager.isSecureTransportReady()) {
+            this.plugin.openLocalPairingDialog();
+            return;
+        }
         const startTime = Date.now();
         let savedError: Error | null = null;
         let promise: Promise<void> | null = null;
