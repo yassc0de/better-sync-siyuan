@@ -35,7 +35,7 @@ export async function createPairingInvite(now = Date.now()): Promise<PendingPair
     if (!globalThis.crypto?.subtle) throw new Error("Web Crypto is unavailable in this context");
     const keys = await crypto.subtle.generateKey(
         { name: "ECDH", namedCurve: "P-256" },
-        true,
+        false,
         ["deriveBits"]
     );
     const rawPublicKey = new Uint8Array(await crypto.subtle.exportKey("raw", keys.publicKey));
